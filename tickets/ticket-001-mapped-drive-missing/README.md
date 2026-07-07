@@ -40,7 +40,7 @@ The mapped drive may be missing because one or more requirements are not met:
 1. Confirmed that the user was able to log in to the domain client.
 2. Checked File Explorer and verified that the expected Finance mapped drive was missing.
 3. Tested direct access to the shared folder using `dir \\DC01\FinanceShare`. The command listed the folder contents successfully, confirming that the share and permissions were working.
-4. Ran `gpresult /r` to check which Group Policy Objects applied to the user.\
+4. Ran `gpresult /r` to check which Group Policy Objects applied to the user.
 5. Confirmed that the mapped drive GPO was not listed under applied user policies.
 6. Opened Group Policy Management on DC01.
 7. Found that the mapped drive GPO was linked to the wrong OU.
