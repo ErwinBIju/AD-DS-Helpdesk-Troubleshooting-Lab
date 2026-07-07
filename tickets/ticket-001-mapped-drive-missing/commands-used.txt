@@ -1,1 +1,13 @@
+gpresult /r
 
+gpresult /h C:\Temp\gpresult.html
+
+gpupdate /force
+
+whoami /groups
+
+net use
+
+dir \\DC01\Finance-Share
+
+klist
