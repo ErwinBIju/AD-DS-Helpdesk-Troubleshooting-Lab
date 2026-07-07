@@ -13,7 +13,7 @@ A domain user reports that the expected mapped network drive does not appear aft
 | Client | DESKTOP-J57NE1D |
 | User | LAB\erwin |
 | GPO involved | Finance Mapped Drive Policy |
-| Shared folder | \\DC01\FinanceShare |
+| Shared folder | \\\DC01\FinanceShare |
 | Security group | Finance-Users |
 
 ## Symptoms
