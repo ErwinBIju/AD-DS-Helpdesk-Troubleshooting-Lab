@@ -52,8 +52,11 @@ The mapped drive may be missing because one or more requirements are not met:
 ## Commands Used
 
 gpupdate /force
+
 gpresult /r
+
 net use
+
 dir \\DC01\Finance-Share
 
 ## Root Cause
