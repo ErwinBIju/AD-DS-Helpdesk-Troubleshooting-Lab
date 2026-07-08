@@ -44,7 +44,7 @@ The mapped drive was present, which showed that the drive mapping GPO was applyi
 
 Evidence:
 
-![Mapped drive present](Screenshots/ticket-002/01-net-use-drive-mapped.PNG)
+![Mapped drive present](../../Screenshots/ticket-002/01-net-use-drive-mapped.PNG)
 
 ---
 
