@@ -144,7 +144,7 @@ The user could successfully access:
 
 `\\DC01\FinanceShare`
 
-## Interview Explanation
+## Explanation
 
 An Active Directory account lockout happens when a user exceeds the allowed number of failed logon attempts defined by the domain account lockout policy.
 
