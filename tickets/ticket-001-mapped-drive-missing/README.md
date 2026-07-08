@@ -179,7 +179,7 @@ Evidence:
 
 ![Net use success](../../Screenshots/ticket-001/08-net-use-success.PNG)
 
-## Interview Explanation
+## Explanation
 
 In this ticket, the user could access `\\DC01\FinanceShare` directly, but the mapped drive did not appear after login. That told me the share itself was reachable and the permissions were likely correct.
 
