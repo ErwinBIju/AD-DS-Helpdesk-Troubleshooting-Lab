@@ -64,7 +64,7 @@ Access was denied.
 
 Evidence:
 
-![UNC access denied](../..Screenshots/ticket-002/02-unc-access-denied.PNG)
+![UNC access denied](../../Screenshots/ticket-002/02-unc-access-denied.PNG)
 
 ---
 
