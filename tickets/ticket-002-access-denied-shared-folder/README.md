@@ -119,7 +119,7 @@ Get-ADGroupMember "Finance-Users"
 ```
 
 ```powershell
-Get-ADGroupMember "Finance-Share-Read" | Select-Object Name, SamAccountName, ObjectClass
+Get-ADGroupMember "Finance-Share-Read" 
 ```
 
 Result:
