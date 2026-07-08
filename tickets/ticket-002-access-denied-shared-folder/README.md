@@ -224,7 +224,7 @@ Evidence:
 
 ![File Explorer access success](../../Screenshots/ticket-002/10-file-explorer-access-success.PNG)
 
-## Interview Explanation
+## Explanation
 
 In this ticket, the mapped drive appeared, so I knew the Group Policy drive mapping was working. The user still received Access Denied when opening the share, so I focused on file access permissions.
 
