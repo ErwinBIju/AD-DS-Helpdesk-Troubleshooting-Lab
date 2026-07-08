@@ -64,7 +64,7 @@ Access was denied.
 
 Evidence:
 
-![UNC access denied](../../screenshots/ticket-002/02-unc-access-denied.png)
+![UNC access denied](../..Screenshots/ticket-002/02-unc-access-denied.PNG)
 
 ---
 
@@ -84,7 +84,7 @@ The logged-in user was `LAB\erwin`.
 
 Evidence:
 
-![Whoami result](../../screenshots/ticket-002/03-whoami.png)
+![Whoami result](../../Screenshots/ticket-002/03-whoami.PNG)
 
 ---
 
@@ -104,7 +104,7 @@ The user had the expected Finance group membership for this access path.
 
 Evidence:
 
-![Finance group membership](../../screenshots/ticket-002/04-whoami-groups-finance.png)
+![Finance group membership](../../Screenshots/ticket-002/04-whoami-groups-finance.PNG)
 
 ---
 
@@ -128,7 +128,7 @@ Result:
 
 Evidence:
 
-![AGDLP group nesting](../../screenshots/ticket-002/05-agdlp-group-nesting.png)
+![AGDLP group nesting](../../Screenshots/ticket-002/05-agdlp-group-nesting.PNG)
 
 ---
 
@@ -148,7 +148,7 @@ The SMB share existed and the share permission layer was not identified as the r
 
 Evidence:
 
-![Share permissions](../../screenshots/ticket-002/06-share-permissions.png)
+![Share permissions](../../Screenshots/ticket-002/06-share-permissions.PNG)
 
 ---
 
@@ -168,7 +168,7 @@ The `LAB\Finance-Share-Read` domain local group did not have the required NTFS p
 
 Evidence:
 
-![Broken NTFS permissions](../../screenshots/ticket-002/07-ntfs-permissions-broken.png)
+![Broken NTFS permissions](../../Screenshots/ticket-002/07-ntfs-permissions-broken.PNG)
 
 ## Root Cause
 
@@ -198,7 +198,7 @@ LAB\Finance-Share-Read = Read & Execute
 
 Evidence:
 
-![Fixed NTFS permissions](../../screenshots/ticket-002/08-ntfs-permissions-fixed.png)
+![Fixed NTFS permissions](../../Screenshots/ticket-002/08-ntfs-permissions-fixed.PNG)
 
 ## Verification
 
@@ -216,13 +216,13 @@ The user was able to access the shared folder successfully.
 
 Evidence:
 
-![UNC access success](../../screenshots/ticket-002/09-unc-access-success.png)
+![UNC access success](../../Screenshots/ticket-002/09-unc-access-success.PNG)
 
 I also confirmed access through File Explorer using the mapped Finance drive.
 
 Evidence:
 
-![File Explorer access success](../../screenshots/ticket-002/10-file-explorer-access-success.png)
+![File Explorer access success](../../Screenshots/ticket-002/10-file-explorer-access-success.PNG)
 
 ## Interview Explanation
 
