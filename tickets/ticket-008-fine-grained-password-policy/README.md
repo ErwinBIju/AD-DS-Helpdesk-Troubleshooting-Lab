@@ -269,9 +269,6 @@ Command used:
 
 ```powershell
 Get-ADUserResultantPasswordPolicy -Identity erwin
-
-
-}
 ```
 
 ![Regular user no PSO](../../Screenshots/ticket-008/13-regular-user-no-pso.PNG)
