@@ -42,7 +42,16 @@ I verified the current domain-wide password policy before making any changes.
 Command used:
 
 ```powershell
-Get-ADDefaultDomainPasswordPolicy 
+Get-ADDefaultDomainPasswordPolicy |
+Select-Object MinPasswordLength,
+              MaxPasswordAge,
+              MinPasswordAge,
+              PasswordHistoryCount,
+              ComplexityEnabled,
+              ReversibleEncryptionEnabled,
+              LockoutThreshold,
+              LockoutDuration,
+              LockoutObservationWindow
 ```
 
 ![Default domain password policy](../../Screenshots/ticket-008/01-default-domain-password-policy.PNG)
@@ -77,7 +86,7 @@ Group configuration:
 
 The group was created as a Global Security group because Password Settings Objects can apply to users and global security groups.
 
-This group is not being used as a GPO target. A PSO is different from a GPO. A GPO is linked to a site, domain, or OU. A PSO can be assigned directly to users or global security groups.
+This group is not being used as a GPO target. A GPO is linked to a site, domain, or OU. A Password Settings Object is different because it can be assigned directly to users or global security groups.
 
 ---
 
@@ -91,25 +100,9 @@ This allowed the service account to receive the Fine-Grained Password Policy thr
 
 ---
 
-### 5. Opened Active Directory Administrative Center
+### 5. Opened the Password Settings Container
 
-I opened Active Directory Administrative Center on `DC01`.
-
-Path used:
-
-```text
-Server Manager → Tools → Active Directory Administrative Center
-```
-
-![Active Directory Administrative Center](../../Screenshots/ticket-008/05-active-directory-administrative-center.PNG)
-
-Active Directory Administrative Center is the GUI tool used to create and manage Password Settings Objects.
-
----
-
-### 6. Opened the Password Settings Container
-
-In Active Directory Administrative Center, I navigated to the Password Settings Container.
+I opened Active Directory Administrative Center and navigated to the Password Settings Container.
 
 Path used:
 
@@ -117,13 +110,13 @@ Path used:
 Active Directory Administrative Center → lab (local) → System → Password Settings Container
 ```
 
-![Password Settings Container](../../Screenshots/ticket-008/06-password-settings-container.PNG)
+![Password Settings Container](../../Screenshots/ticket-008/05-password-settings-container.PNG)
 
 This is where Fine-Grained Password Policies are created and stored in Active Directory.
 
 ---
 
-### 7. Created the Password Settings Object
+### 6. Created the Password Settings Object
 
 I created a new Password Settings Object named `Privileged-Accounts-Password-Policy`.
 
@@ -140,13 +133,13 @@ Initial PSO settings:
 | Complexity | Enabled |
 | Reversible encryption | Disabled |
 
-![PSO password settings](../../Screenshots/ticket-008/07-pso-password-settings.PNG)
+![PSO password settings](../../Screenshots/ticket-008/06-pso-password-settings.PNG)
 
 The PSO was configured with stronger password settings than the default domain password policy.
 
 ---
 
-### 8. Configured stricter account lockout settings
+### 7. Configured stricter account lockout settings
 
 I configured the account lockout settings in the Password Settings Object.
 
@@ -158,13 +151,13 @@ Lockout settings:
 | Reset failed logon attempts count after | 30 minutes |
 | Account will be locked out for | 30 minutes |
 
-![PSO lockout settings](../../Screenshots/ticket-008/08-pso-lockout-settings.PNG)
+![PSO lockout settings](../../Screenshots/ticket-008/07-pso-lockout-settings.PNG)
 
 These settings make privileged and service accounts lock out faster than regular accounts after repeated failed authentication attempts.
 
 ---
 
-### 9. Assigned the PSO to the target groups
+### 8. Assigned the PSO to the target groups
 
 I assigned the Password Settings Object to the required target groups.
 
@@ -173,7 +166,7 @@ Groups added under `Directly Applies To`:
 - `Domain Admins`
 - `Privileged-Service-Accounts`
 
-![PSO directly applies to target groups](../../Screenshots/ticket-008/09-pso-directly-applies-to.PNG)
+![PSO directly applies to target groups](../../Screenshots/ticket-008/08-pso-directly-applies-to.PNG)
 
 This means members of those groups receive the stricter password policy.
 
@@ -181,27 +174,39 @@ The PSO was assigned to groups, but this was not GPO security filtering. Passwor
 
 ---
 
-### 10. Confirmed the PSO was created
+### 9. Confirmed the PSO was created
 
 I confirmed that `Privileged-Accounts-Password-Policy` appeared in the Password Settings Container.
 
-![PSO created](../../Screenshots/ticket-008/10-pso-created.PNG)
+![PSO created](../../Screenshots/ticket-008/09-pso-created.PNG)
 
 This confirmed that the Fine-Grained Password Policy was successfully created in Active Directory.
 
 ---
 
-### 11. Verified the PSO settings with PowerShell
+### 10. Verified the PSO settings with PowerShell
 
 I verified the Password Settings Object using PowerShell.
 
 Command used:
 
 ```powershell
-Get-ADFineGrainedPasswordPolicy -Identity "Privileged-Accounts-Password-Policy" 
+Get-ADFineGrainedPasswordPolicy -Identity "Privileged-Accounts-Password-Policy" |
+Select-Object Name,
+              Precedence,
+              MinPasswordLength,
+              MaxPasswordAge,
+              MinPasswordAge,
+              PasswordHistoryCount,
+              ComplexityEnabled,
+              ReversibleEncryptionEnabled,
+              LockoutThreshold,
+              LockoutDuration,
+              LockoutObservationWindow,
+              AppliesTo
 ```
 
-![PSO PowerShell properties](../../Screenshots/ticket-008/11-pso-powershell-properties.PNG)
+![PSO PowerShell properties](../../Screenshots/ticket-008/10-pso-powershell-properties.PNG)
 
 The PowerShell output confirmed the configured settings, including the minimum password length, maximum password age, password history, lockout threshold, and assigned target groups.
 
@@ -241,7 +246,7 @@ The PSO was assigned to:
 - `Domain Admins`
 - `Privileged-Service-Accounts`
 
-![PSO directly applies to target groups](../../Screenshots/ticket-008/09-pso-directly-applies-to.PNG)
+![PSO directly applies to target groups](../../Screenshots/ticket-008/08-pso-directly-applies-to.PNG)
 
 ## Verification
 
@@ -252,10 +257,16 @@ I verified that a domain administrator received the new Fine-Grained Password Po
 Command used:
 
 ```powershell
-Get-ADUserResultantPasswordPolicy -Identity Administrator 
+Get-ADUserResultantPasswordPolicy -Identity Administrator |
+Select-Object Name,
+              Precedence,
+              MinPasswordLength,
+              MaxPasswordAge,
+              PasswordHistoryCount,
+              LockoutThreshold
 ```
 
-![Domain admin resultant policy](../../Screenshots/ticket-008/12-domain-admin-resultant-policy.PNG)
+![Domain admin resultant policy](../../Screenshots/ticket-008/11-domain-admin-resultant-policy.PNG)
 
 The resultant password policy showed `Privileged-Accounts-Password-Policy`, confirming that members of `Domain Admins` received the stricter policy.
 
@@ -268,10 +279,16 @@ I verified that `LAB\svc_backup` received the new Fine-Grained Password Policy.
 Command used:
 
 ```powershell
-Get-ADUserResultantPasswordPolicy -Identity svc_backup 
+Get-ADUserResultantPasswordPolicy -Identity svc_backup |
+Select-Object Name,
+              Precedence,
+              MinPasswordLength,
+              MaxPasswordAge,
+              PasswordHistoryCount,
+              LockoutThreshold
 ```
 
-![Service account resultant policy](../../Screenshots/ticket-008/13-service-account-resultant-policy.PNG)
+![Service account resultant policy](../../Screenshots/ticket-008/12-service-account-resultant-policy.PNG)
 
 The resultant password policy showed `Privileged-Accounts-Password-Policy`, confirming that the service account received the stricter policy through membership in `Privileged-Service-Accounts`.
 
@@ -284,11 +301,17 @@ I checked the resultant password policy for regular user `LAB\erwin`.
 Command used:
 
 ```powershell
-Get-ADUserResultantPasswordPolicy -Identity erwin
+$Policy = Get-ADUserResultantPasswordPolicy -Identity erwin
 
+if ($null -eq $Policy) {
+    Write-Output "No PSO applies to LAB\erwin. The user receives the default domain password policy."
+}
+else {
+    $Policy
+}
 ```
 
-![Regular user no PSO](../../Screenshots/ticket-008/14-regular-user-no-pso.PNG)
+![Regular user no PSO](../../Screenshots/ticket-008/13-regular-user-no-pso.PNG)
 
 No Fine-Grained Password Policy applied to `LAB\erwin`, which confirmed that the regular user was not affected by the new privileged account policy.
 
@@ -301,10 +324,15 @@ I checked the default domain password policy again.
 Command used:
 
 ```powershell
-Get-ADDefaultDomainPasswordPolicy
+Get-ADDefaultDomainPasswordPolicy |
+Select-Object MinPasswordLength,
+              MaxPasswordAge,
+              PasswordHistoryCount,
+              ComplexityEnabled,
+              LockoutThreshold
 ```
 
-![Regular user domain policy](../../Screenshots/ticket-008/15-regular-user-domain-policy.PNG)
+![Regular user domain policy](../../Screenshots/ticket-008/14-regular-user-domain-policy.PNG)
 
 The default domain password policy remained unchanged, confirming that regular staff accounts continued using the original domain policy.
 
@@ -331,8 +359,7 @@ This issue was not caused by user permissions, DNS, Group Policy processing, or 
 - Confirmed the `LAB\svc_backup` service account existed.
 - Created the `Privileged-Service-Accounts` global security group.
 - Added `LAB\svc_backup` to `Privileged-Service-Accounts`.
-- Opened Active Directory Administrative Center.
-- Opened the Password Settings Container.
+- Opened the Password Settings Container in Active Directory Administrative Center.
 - Created `Privileged-Accounts-Password-Policy`.
 - Configured a 14-character minimum password length.
 - Configured a 30-day maximum password age.
