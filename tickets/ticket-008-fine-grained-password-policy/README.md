@@ -42,16 +42,7 @@ I verified the current domain-wide password policy before making any changes.
 Command used:
 
 ```powershell
-Get-ADDefaultDomainPasswordPolicy |
-Select-Object MinPasswordLength,
-              MaxPasswordAge,
-              MinPasswordAge,
-              PasswordHistoryCount,
-              ComplexityEnabled,
-              ReversibleEncryptionEnabled,
-              LockoutThreshold,
-              LockoutDuration,
-              LockoutObservationWindow
+Get-ADDefaultDomainPasswordPolicy 
 ```
 
 ![Default domain password policy](../../Screenshots/ticket-008/01-default-domain-password-policy.PNG)
@@ -191,19 +182,7 @@ I verified the Password Settings Object using PowerShell.
 Command used:
 
 ```powershell
-Get-ADFineGrainedPasswordPolicy -Identity "Privileged-Accounts-Password-Policy" |
-Select-Object Name,
-              Precedence,
-              MinPasswordLength,
-              MaxPasswordAge,
-              MinPasswordAge,
-              PasswordHistoryCount,
-              ComplexityEnabled,
-              ReversibleEncryptionEnabled,
-              LockoutThreshold,
-              LockoutDuration,
-              LockoutObservationWindow,
-              AppliesTo
+Get-ADFineGrainedPasswordPolicy -Identity "Privileged-Accounts-Password-Policy" 
 ```
 
 ![PSO PowerShell properties](../../Screenshots/ticket-008/10-pso-powershell-properties.PNG)
@@ -257,13 +236,7 @@ I verified that a domain administrator received the new Fine-Grained Password Po
 Command used:
 
 ```powershell
-Get-ADUserResultantPasswordPolicy -Identity Administrator |
-Select-Object Name,
-              Precedence,
-              MinPasswordLength,
-              MaxPasswordAge,
-              PasswordHistoryCount,
-              LockoutThreshold
+Get-ADUserResultantPasswordPolicy -Identity Administrator 
 ```
 
 ![Domain admin resultant policy](../../Screenshots/ticket-008/11-domain-admin-resultant-policy.PNG)
@@ -279,13 +252,7 @@ I verified that `LAB\svc_backup` received the new Fine-Grained Password Policy.
 Command used:
 
 ```powershell
-Get-ADUserResultantPasswordPolicy -Identity svc_backup |
-Select-Object Name,
-              Precedence,
-              MinPasswordLength,
-              MaxPasswordAge,
-              PasswordHistoryCount,
-              LockoutThreshold
+Get-ADUserResultantPasswordPolicy -Identity svc_backup 
 ```
 
 ![Service account resultant policy](../../Screenshots/ticket-008/12-service-account-resultant-policy.PNG)
@@ -301,13 +268,9 @@ I checked the resultant password policy for regular user `LAB\erwin`.
 Command used:
 
 ```powershell
-$Policy = Get-ADUserResultantPasswordPolicy -Identity erwin
+Get-ADUserResultantPasswordPolicy -Identity erwin
 
-if ($null -eq $Policy) {
-    Write-Output "No PSO applies to LAB\erwin. The user receives the default domain password policy."
-}
-else {
-    $Policy
+
 }
 ```
 
@@ -324,12 +287,7 @@ I checked the default domain password policy again.
 Command used:
 
 ```powershell
-Get-ADDefaultDomainPasswordPolicy |
-Select-Object MinPasswordLength,
-              MaxPasswordAge,
-              PasswordHistoryCount,
-              ComplexityEnabled,
-              LockoutThreshold
+Get-ADDefaultDomainPasswordPolicy 
 ```
 
 ![Regular user domain policy](../../Screenshots/ticket-008/14-regular-user-domain-policy.PNG)
